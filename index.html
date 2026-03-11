@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parimi Gandhi Balaji — Data Science & ML</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root[data-theme="dark"] {
+    --bg: #050a0e;
+    --bg2: #0a1520;
+    --bg3: #0f1e2e;
+    --card: #0d1b2a;
+    --card2: #112233;
+    --border: #1a3a55;
+    --accent: #00d4ff;
+    --accent2: #00ff9d;
+    --accent3: #ff6b35;
+    --text: #e8f4f8;
+    --text2: #8ab4cc;
+    --text3: #4a7a9b;
+    --glow: rgba(0, 212, 255, 0.15);
+    --glow2: rgba(0, 255, 157, 0.1);
+  }
+  :root[data-theme="light"] {
+    --bg: #f0f7ff;
+    --bg2: #e1eef9;
+    --bg3: #d2e5f5;
+    --card: #ffffff;
+    --card2: #f5f9ff;
+    --border: #b8d4ec;
+    --accent: #0077aa;
+    --accent2: #00875a;
+    --accent3: #cc4400;
+    --text: #0a1520;
+    --text2: #2a5a7a;
+    --text3: #5a88aa;
+    --glow: rgba(0, 119, 170, 0.1);
+    --glow2: rgba(0, 135, 90, 0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    transition: background 0.4s, color 0.4s;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background: rgba(5, 10, 14, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.4s;
+  }
+  [data-theme="light"] nav { background: rgba(240, 247, 255, 0.9); }
+  .nav-logo { font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--accent); letter-spacing: 0.05em; }
+  .nav-logo span { color: var(--accent2); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; color: var(--text2); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.3s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+  .theme-toggle { background: var(--card2); border: 1px solid var(--border); color: var(--text2); cursor: pointer; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-family: 'Space Mono', monospace; transition: all 0.2s; }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  section { position: relative; z-index: 1; padding: 5rem 2.5rem; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.8rem; }
+  .section-label::before { content: ''; display: inline-block; width: 30px; height: 1px; background: var(--accent); }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; color: var(--text); }
+  #hero { min-height: 100vh; display: flex; align-items: center; max-width: 100%; padding: 0 5vw; padding-top: 80px; }
+  .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.35em; color: var(--accent2); text-transform: uppercase; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
+  .hero-eyebrow::before { content: '▶'; font-size: 0.5rem; color: var(--accent2); animation: blink 1.2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .hero-name { font-family: 'Syne', sans-serif; font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1.5rem; }
+  .hero-name .accent-word { display: block; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-title { font-family: 'DM Sans', sans-serif; font-size: 1.1rem; font-weight: 500; color: var(--text2); margin-bottom: 0.6rem; }
+  .hero-tagline { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--text3); font-style: italic; margin-bottom: 2.5rem; padding-left: 1rem; border-left: 2px solid var(--accent); }
+  .hero-btns { display: flex; flex-wrap: wrap; gap: 1rem; }
+  .btn-primary { font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 0.1em; padding: 0.75rem 1.8rem; background: var(--accent); color: #000; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); transition: all 0.2s; font-weight: 700; }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-outline { font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 0.1em; padding: 0.75rem 1.8rem; background: transparent; color: var(--text2); border: 1px solid var(--border); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s; }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+  .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+  .data-orb { width: 320px; height: 320px; position: relative; }
+  .orb-ring { position: absolute; border-radius: 50%; border: 1px solid; animation: rotate linear infinite; }
+  .orb-ring:nth-child(1) { inset: 0; border-color: var(--accent); opacity: 0.3; animation-duration: 20s; }
+  .orb-ring:nth-child(2) { inset: 20px; border-color: var(--accent2); opacity: 0.25; animation-duration: 15s; animation-direction: reverse; }
+  .orb-ring:nth-child(3) { inset: 50px; border-color: var(--accent3); opacity: 0.2; animation-duration: 10s; }
+  @keyframes rotate { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  .orb-center { position: absolute; inset: 80px; border-radius: 50%; background: radial-gradient(circle, var(--glow) 0%, transparent 70%); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.3rem; }
+  .orb-stat { text-align: center; }
+  .orb-stat .num { font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent); display: block; }
+  .orb-stat .lbl { font-size: 0.6rem; letter-spacing: 0.1em; color: var(--text3); text-transform: uppercase; }
+  .data-point { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  #about .about-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; margin-top: 3rem; }
+  .about-sidebar { display: flex; flex-direction: column; gap: 1rem; }
+  .info-chip { display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1rem; background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent); font-size: 0.82rem; color: var(--text2); transition: all 0.2s; }
+  .info-chip:hover { border-left-color: var(--accent2); background: var(--card2); }
+  .info-chip .ic-icon { color: var(--accent); font-size: 1rem; }
+  .info-chip a { color: var(--text2); text-decoration: none; }
+  .info-chip a:hover { color: var(--accent); }
+  .about-text p { font-size: 1rem; line-height: 1.8; color: var(--text2); margin-bottom: 1.2rem; }
+  .about-text p strong { color: var(--text); }
+  #skills .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .skill-card { background: var(--card); border: 1px solid var(--border); padding: 1.5rem; position: relative; overflow: hidden; transition: all 0.3s; }
+  .skill-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .skill-card:nth-child(2)::before { background: linear-gradient(90deg, var(--accent2), var(--accent3)); }
+  .skill-card:nth-child(3)::before { background: linear-gradient(90deg, var(--accent3), var(--accent)); }
+  .skill-card:nth-child(4)::before { background: linear-gradient(90deg, var(--accent), var(--accent3)); }
+  .skill-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 8px 30px var(--glow); }
+  .skill-card-title { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; padding: 0.35rem 0.85rem; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); transition: all 0.2s; cursor: default; }
+  .skill-tag:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+  #projects .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .project-card { background: var(--card); border: 1px solid var(--border); overflow: hidden; position: relative; transition: all 0.3s; }
+  .project-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 12px 40px var(--glow); }
+  .project-header { padding: 1.8rem 2rem 1.2rem; border-bottom: 1px solid var(--border); background: var(--bg3); display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+  .project-num { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent); letter-spacing: 0.2em; background: var(--glow); padding: 0.25rem 0.6rem; border: 1px solid var(--border); }
+  .project-title { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+  .project-body { padding: 1.5rem 2rem 2rem; }
+  .project-desc { font-size: 0.9rem; line-height: 1.75; color: var(--text2); margin-bottom: 1.5rem; }
+  .tech-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tech-badge { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.05em; padding: 0.25rem 0.65rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); transition: all 0.2s; }
+  .tech-badge:hover { background: var(--accent); color: #000; }
+  .project-footer { padding: 1rem 2rem; border-top: 1px solid var(--border); display: flex; gap: 1rem; }
+  .proj-link { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--text3); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
+  .proj-link:hover { color: var(--accent2); }
+  #certifications .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; margin-top: 3rem; }
+  .cert-card-wrapper { text-decoration: none; display: block; }
+  .cert-card { background: var(--card); border: 1px solid var(--border); padding: 1.4rem; display: flex; align-items: flex-start; gap: 1rem; transition: all 0.2s; position: relative; overflow: hidden; height: 100%; }
+  .cert-card::after { content: ''; position: absolute; bottom: 0; right: 0; width: 40px; height: 40px; background: var(--glow2); clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+  .cert-card:hover { border-color: var(--accent2); transform: translateX(4px); }
+  .cert-icon { width: 40px; height: 40px; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .cert-title { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; line-height: 1.3; }
+  .cert-org { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--accent2); text-transform: uppercase; }
+  #achievements .ach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .ach-card-wrapper { text-decoration: none; display: block; }
+  .ach-card { background: var(--card); border: 1px solid var(--border); padding: 2rem; text-align: center; position: relative; overflow: hidden; transition: all 0.3s; height: 100%; }
+  .ach-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, var(--glow), transparent 60%); pointer-events: none; }
+  .ach-card:hover { transform: translateY(-4px); border-color: var(--accent3); }
+  .ach-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+  .ach-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+  .ach-desc { font-size: 0.85rem; color: var(--text2); }
+  #education .edu-timeline { margin-top: 3rem; position: relative; padding-left: 2rem; }
+  #education .edu-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent); }
+  .edu-item { position: relative; padding: 1.8rem 2rem; background: var(--card); border: 1px solid var(--border); margin-bottom: 1.5rem; transition: all 0.2s; }
+  .edu-item::before { content: ''; position: absolute; left: -2rem; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+  .edu-item:hover { border-color: var(--accent); transform: translateX(4px); }
+  .edu-degree { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+  .edu-school { font-size: 0.9rem; color: var(--accent); margin-bottom: 0.3rem; font-weight: 500; }
+  .edu-meta { display: flex; gap: 1.5rem; margin-top: 0.6rem; flex-wrap: wrap; }
+  .edu-meta span { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; color: var(--text3); display: flex; align-items: center; gap: 0.3rem; }
+  .edu-meta .grade { color: var(--accent2); }
+  footer { position: relative; z-index: 1; padding: 3rem 2.5rem; border-top: 1px solid var(--border); text-align: center; }
+  footer .footer-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; }
+  footer p { font-size: 0.82rem; color: var(--text3); font-family: 'Space Mono', monospace; letter-spacing: 0.1em; }
+  .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin: 1.5rem 0; }
+  .footer-links a { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text3); text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .section-divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-visual { display: none; }
+    section { padding: 4rem 1.5rem; }
+    #about .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    #projects .projects-grid { grid-template-columns: 1fr; }
+  }
+  @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+  @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">PGB<span>.</span>dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#education">Education</a></li>
+  </ul>
+  <div style="display:flex; gap:10px;">
+      <a href="Balaji_CV.pdf" download class="btn-outline">⬇ Download CV</a>
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀ Light</button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-content fade-up">
+      <div class="hero-eyebrow">Available for Opportunities</div>
+      <h1 class="hero-name">Parimi<br>Gandhi<span class="accent-word">Balaji</span></h1>
+      <p class="hero-title">Data Science &amp; Machine Learning Enthusiast</p>
+      <p class="hero-tagline">Turning Data Into Insights | Building Machine Learning Solutions</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">▶ View Projects</a>
+        <a href="mailto:balajigandhi953@gmail.com" class="btn-outline">✉ Contact Me</a>
+        <a href="https://github.com/ParimiBalaji" target="_blank" class="btn-outline">⌥ GitHub</a>
+        <a href="https://www.linkedin.com/in/parimi-gandhi-balaji-a3118127a" target="_blank" class="btn-outline">in LinkedIn</a>
+      </div>
+    </div>
+    <div class="hero-visual fade-up">
+      <div class="data-orb">
+        <div class="orb-ring"></div>
+        <div class="orb-ring"></div>
+        <div class="orb-ring"></div>
+        <div class="orb-center">
+          <div class="orb-stat"><span class="num">2+</span><span class="lbl">ML Projects</span></div>
+          <div style="width:60px;height:1px;background:var(--border);margin:0.4rem 0;"></div>
+          <div class="orb-stat"><span class="num">100+</span><span class="lbl">Problems Solved</span></div>
+        </div>
+        <div class="data-point" style="top:10%;left:60%;animation:float1 3s ease-in-out infinite;"></div>
+        <div class="data-point" style="top:75%;left:80%;background:var(--accent2);box-shadow:0 0 8px var(--accent2);animation:float2 4s ease-in-out infinite;"></div>
+        <div class="data-point" style="top:30%;left:5%;background:var(--accent3);box-shadow:0 0 8px var(--accent3);animation:float1 3.5s ease-in-out infinite reverse;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="about">
+  <div class="section-label">01 — Profile</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid fade-up">
+    <div class="about-sidebar">
+      <div class="info-chip"><span class="ic-icon">✉</span> <a href="mailto:balajigandhi953@gmail.com">balajigandhi953@gmail.com</a></div>
+      <div class="info-chip"><span class="ic-icon">📱</span> +91-6302675757</div>
+      <div class="info-chip"><span class="ic-icon">🔗</span> <a href="https://www.linkedin.com/in/parimi-gandhi-balaji-a3118127a" target="_blank">LinkedIn Profile</a></div>
+      <div class="info-chip"><span class="ic-icon">⌥</span> <a href="https://github.com/ParimiBalaji" target="_blank">github.com/ParimiBalaji</a></div>
+      <div class="info-chip"><span class="ic-icon">📍</span> Phagwara, Punjab, India</div>
+      <div class="info-chip"><span class="ic-icon">🎓</span> B.Tech CSE @ LPU</div>
+    </div>
+    <div class="about-text">
+      <p>I'm <strong>Parimi Gandhi Balaji</strong>, a B.Tech Computer Science &amp; Engineering student at Lovely Professional University with a deep passion for <strong>Data Science, Machine Learning, and Analytics</strong>.</p>
+      <p>My journey into data science is driven by a genuine curiosity about patterns hidden in raw data and the power of machine learning to extract actionable insights. I specialize in building <strong>end-to-end ML pipelines</strong> — from data preprocessing and exploratory analysis to model deployment in production-ready applications.</p>
+      <p>With strong foundations in <strong>Python, SQL, and data visualization</strong> tools like Power BI and Tableau, I bridge the gap between technical modeling and business storytelling. I believe data, when asked the right questions, can solve real-world problems — and that's exactly what I set out to do.</p>
+      <p>Currently seeking opportunities to contribute to <strong>data-driven projects</strong> where I can apply my skills and grow alongside experienced teams.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="skills">
+  <div class="section-label">02 — Capabilities</div>
+  <h2 class="section-title">Skills &amp; Tools</h2>
+  <div class="skills-grid fade-up">
+    <div class="skill-card"><div class="skill-card-title">⟨/⟩ Languages</div><div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">SQL</span><span class="skill-tag">Java</span></div></div>
+    <div class="skill-card"><div class="skill-card-title">◈ Libraries &amp; Frameworks</div><div class="skill-tags"><span class="skill-tag">NumPy</span><span class="skill-tag">Pandas</span><span class="skill-tag">Matplotlib</span><span class="skill-tag">Seaborn</span><span class="skill-tag">Scikit-learn</span><span class="skill-tag">Streamlit</span></div></div>
+    <div class="skill-card"><div class="skill-card-title">⬡ Tools &amp; Platforms</div><div class="skill-tags"><span class="skill-tag">Power BI</span><span class="skill-tag">Tableau</span><span class="skill-tag">MySQL</span><span class="skill-tag">Excel</span><span class="skill-tag">GitHub</span></div></div>
+    <div class="skill-card"><div class="skill-card-title">✦ Soft Skills</div><div class="skill-tags"><span class="skill-tag">Problem Solving</span><span class="skill-tag">Adaptability</span><span class="skill-tag">Team Player</span></div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="projects">
+  <div class="section-label">03 — Work</div>
+  <h2 class="section-title">Featured Projects</h2>
+  <div class="projects-grid fade-up">
+    <div class="project-card">
+      <div class="project-header"><div><div class="project-num">PROJECT / 01</div><div class="project-title">Global Space Exploration<br>Mission Success Prediction</div></div><span style="font-size:2rem;">🚀</span></div>
+      <div class="project-body">
+        <p class="project-desc">Built an end-to-end machine learning pipeline to predict space mission success using global mission datasets. Conducted comprehensive EDA to identify mission risk patterns and budget correlations. Developed an AI-powered Streamlit web application enabling real-time mission simulation.</p>
+        <div class="tech-stack"><span class="tech-badge">Python</span><span class="tech-badge">Streamlit</span><span class="tech-badge">Machine Learning</span><span class="tech-badge">Classification</span><span class="tech-badge">EDA</span></div>
+      </div>
+      <div class="project-footer">
+        <a href="https://github.com/ParimiBalaji/space-mission-predictor" target="_blank" class="proj-link">⌥ GitHub Project →</a>
+        <span style="font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--text3);">Oct'25 – Dec'25</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-header"><div><div class="project-num">PROJECT / 02</div><div class="project-title">Employee Performance<br>Segmentation for HR Insights</div></div><span style="font-size:2rem;">📊</span></div>
+      <div class="project-body">
+        <p class="project-desc">Engineered an unsupervised learning model using K-Means clustering to segment employees based on performance and engagement metrics. Delivered an interactive Power BI dashboard to visualize employee segments for strategic planning.</p>
+        <div class="tech-stack"><span class="tech-badge">Python</span><span class="tech-badge">Scikit-learn</span><span class="tech-badge">K-Means</span><span class="tech-badge">Power BI</span><span class="tech-badge">Clustering</span></div>
+      </div>
+      <div class="project-footer">
+        <a href="https://github.com/ParimiBalaji/Employee-Performance-Segmentation-for-HR-Insights-" target="_blank" class="proj-link">⌥ GitHub Project →</a>
+        <span style="font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--text3);">Jul'25 – Aug'25</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="certifications">
+  <div class="section-label">04 — Credentials</div>
+  <h2 class="section-title">Certifications</h2>
+  <div class="certs-grid fade-up">
+    <a href="https://www.hackerrank.com/certificates/21d22d925feb" target="_blank" class="cert-card-wrapper">
+      <div class="cert-card"><div class="cert-icon">⚙</div><div><div class="cert-title">Problem Solving (Intermediate)</div><div class="cert-org">HackerRank · Sep'25</div></div></div>
+    </a>
+    <a href="https://www.hackerrank.com/certificates/5d68a389df68" target="_blank" class="cert-card-wrapper">
+      <div class="cert-card"><div class="cert-icon">🗄</div><div><div class="cert-title">SQL Advanced Certificate</div><div class="cert-org">HackerRank · Sep'24</div></div></div>
+    </a>
+    <a href="https://www.theforage.com/completion-certificates/ifobHAoMjQs9s6bKS/gMTdCXwDdLYoXZ3wG_ifobHAoMjQs9s6bKS_693a55614a2fa9e644e068c2_1765436318525_completion_certificate.pdf" target="_blank" class="cert-card-wrapper">
+      <div class="cert-card"><div class="cert-icon">🤖</div><div><div class="cert-title">GenAI Powered Data Analytics Job Simulation</div><div class="cert-org">Tata (Forage) · Dec'25</div></div></div>
+    </a>
+    <a href="https://files.lpu.in/umsweb/StudentCPECertificate/StudentCertificate/12316619_Apti%20Mania%20A%20Competitive%20event%20based%20on%20Quantitative%20Aptitude.pdf" target="_blank" class="cert-card-wrapper">
+      <div class="cert-card"><div class="cert-icon">🏆</div><div><div class="cert-title">Apti Mania — Quantitative Aptitude Event</div><div class="cert-org">LPU · Nov'25</div></div></div>
+    </a>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="achievements">
+  <div class="section-label">05 — Milestones</div>
+  <h2 class="section-title">Achievements</h2>
+  <div class="ach-grid fade-up">
+    <a href="https://www.hackerrank.com/profile/parimigandhibal1" target="_blank" class="ach-card-wrapper">
+      <div class="ach-card"><span class="ach-icon">🥇</span><div class="ach-title">HackerRank Gold Badge</div><div class="ach-desc">Achieved Gold Badge status on HackerRank, demonstrating strong proficiency in problem-solving.</div></div>
+    </a>
+    <a href="https://leetcode.com/u/Parimibalaji/" target="_blank" class="ach-card-wrapper">
+      <div class="ach-card"><span class="ach-icon">💡</span><div class="ach-title">100+ Problems Solved</div><div class="ach-desc">Solved 100+ algorithmic challenges across LeetCode and HackerRank, strengthening computational thinking.</div></div>
+    </a>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="education">
+  <div class="section-label">06 — Academic Background</div>
+  <h2 class="section-title">Education</h2>
+  <div class="edu-timeline fade-up">
+    <div class="edu-item"><div class="edu-degree">Bachelor of Technology — Computer Science &amp; Engineering</div><div class="edu-school">Lovely Professional University, Phagwara, Punjab</div><div class="edu-meta"><span>📅 Aug 2023 — Present</span><span class="grade">CGPA: 7.03</span></div></div>
+    <div class="edu-item"><div class="edu-degree">Intermediate (Class XII)</div><div class="edu-school">Sri Chaithanya College, Hyderabad, Telangana</div><div class="edu-meta"><span>📅 Jul 2021 — Mar 2023</span><span class="grade">91%</span></div></div>
+    <div class="edu-item"><div class="edu-degree">Matriculation (Class X)</div><div class="edu-school">Keshava Reddy School, Nandyala, Andhra Pradesh</div><div class="edu-meta"><span>📅 Jun 2020 — Mar 2021</span><span class="grade">94.8%</span></div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">Parimi Gandhi Balaji</div>
+  <div class="footer-links">
+    <a href="mailto:balajigandhi953@gmail.com">✉ Email</a>
+    <a href="https://github.com/ParimiBalaji" target="_blank">⌥ GitHub</a>
+    <a href="https://www.linkedin.com/in/parimi-gandhi-balaji-a3118127a" target="_blank">in LinkedIn</a>
+    <a href="tel:+916302675757">📱 +91-6302675757</a>
+  </div>
+  <p>© 2026 · Parimi Gandhi Balaji · Data Science &amp; ML Portfolio</p>
+</footer>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeBtn');
+    if (html.dataset.theme === 'dark') { html.dataset.theme = 'light'; btn.textContent = '☾ Dark'; }
+    else { html.dataset.theme = 'dark'; btn.textContent = '☀ Light'; }
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  document.querySelectorAll('.skills-grid, .certs-grid, .ach-grid, .projects-grid').forEach(grid => {
+    Array.from(grid.children).forEach((child, i) => { child.style.transitionDelay = `${i * 0.1}s`; });
+  });
+</script>
+</body>
+</html>
